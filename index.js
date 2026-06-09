@@ -20,33 +20,45 @@ const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication({
 const adapter = new CloudAdapter(botFrameworkAuthentication);
 const tarjetaFormulario = require('./tarjetaUbicacion.json');
 
-// Manejador de eventos del chat
+// Manejador de eventos del chat y canales
 class BotConsultasTecnicas extends ActivityHandler {
     constructor() {
         super();
         
         this.onMessage(async (context, next) => {
             const datosTarjeta = context.activity.value;
+            
+            // Extraer de forma segura los datos del técnico que interactúa
+            const nombreTecnico = context.activity.from ? context.activity.from.name : 'Técnico';
+            const idTecnico = context.activity.from ? context.activity.from.id : 'N/A';
 
-            // Si el usuario escribe texto común, le enviamos el formulario interactivo
+            // CASO 1: El técnico inicia la petición (Escribe texto o menciona al bot en el canal)
             if (!datosTarjeta) {
                 const tarjetaAdjunta = CardFactory.adaptiveCard(tarjetaFormulario);
-                await context.sendActivity({ attachments: [tarjetaAdjunta] });
+                
+                // Al responder al contexto actual, el SDK garantiza que la tarjeta
+                // se renderice exactamente en el hilo donde el técnico invocó al bot.
+                await context.sendActivity({
+                    text: `Hola **${nombreTecnico}**, por favor registra los datos de tu ubicación en este hilo:`,
+                    attachments: [tarjetaAdjunta]
+                });
             } 
-            // Si el usuario presionó el botón "Enviar Reporte" en el formulario
+            // CASO 2: El técnico llenó su tarjeta y presionó el botón "Enviar Reporte"
             else if (datosTarjeta.id === 'guardar_reporte') {
                 const { latitud, longitud, descripcion } = datosTarjeta;
 
-                // Muestra los datos capturados en la consola de Linux
-                console.log(`\n====================================`);
-                console.log(`📥 ¡REPORTE DETECTADO DESDE TEAMS!`);
+                // --- BACKEND LOG SEPARADO POR HILO Y TÉCNICO ---
+                console.log(`\n==================================================`);
+                console.log(`📥 ¡REPORTE SEPARADO DETECTADO DESDE TEAMS!`);
+                console.log(`👤 Técnico: ${nombreTecnico} (ID Azure: ${idTecnico})`);
                 console.log(`🌐 Latitud: ${latitud}`);
                 console.log(`🌐 Longitud: ${longitud}`);
                 console.log(`📝 Descripción: ${descripcion}`);
-                console.log(`====================================\n`);
+                console.log(`🆔 ID de conversación/hilo: ${context.activity.conversation.id}`);
+                console.log(`==================================================\n`);
 
-                // Confirmación visual hacia la pantalla de Teams del agente
-                const mensajeConfirmacion = `### ✅ Reporte Guardado Exitosamente\n\n` +
+                // Confirmación visual estructurada que se responderá dentro del mismo hilo
+                const mensajeConfirmacion = `### ✅ Reporte Guardado para **${nombreTecnico}**\n\n` +
                                             `• **Coordenadas:** \`${latitud}, ${longitud}\`\n` +
                                             `• **Detalles:** ${descripcion || '*Sin descripción*'}`;
                                             
