@@ -1,0 +1,39 @@
+{
+  "$schema": "https://microsoft.com",
+  "manifestVersion": "1.15",
+  "version": "1.0.0",
+  "id": "TU-GUID-DE-AZURE-BOT",
+  "packageName": "com.tecnico.bot.consulta",
+  "developer": {
+    "name": "Tu Empresa",
+    "websiteUrl": "https://tuempresa.com",
+    "privacyUrl": "https://tuempresa.com",
+    "termsOfUseUrl": "https://tuempresa.com"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "Bot Técnico",
+    "full": "Bot de Consulta para Técnicos de Red"
+  },
+  "description": {
+    "short": "Consulta antenas, SAIDs y perfiles.",
+    "full": "Permite a los técnicos consultar el estado de antenas, puntos de acceso, perfiles de velocidad y SAIDs mediante ID o dirección."
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "TU-GUID-DE-AZURE-BOT",
+      "scopes": ["personal"],
+      "supportsFiles": false,
+      "isNotificationOnly": false
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": []
+}

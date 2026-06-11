@@ -1,0 +1,40 @@
+{
+  "type": "AdaptiveCard",
+  "$schema": "http://adaptivecards.io",
+  "version": "1.4",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "🛠️ Consulta de Nodo Técnico",
+      "weight": "Bolder",
+      "size": "Medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Ingresa uno de los dos campos para realizar la búsqueda:",
+      "isSubtle": true,
+      "wrap": true
+    },
+    {
+      "type": "Input.Text",
+      "id": "idAntena",
+      "label": "ID de la Antena",
+      "placeholder": "Ej: ANT-9942"
+    },
+    {
+      "type": "Input.Text",
+      "id": "direccionResidencia",
+      "label": "Dirección de Residencia",
+      "placeholder": "Ej: Calle 45 #12-34"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "🔍 Buscar Datos",
+      "data": {
+        "action": "buscarTecnico"
+      }
+    }
+  ]
+}

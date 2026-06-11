@@ -1,18 +1,12 @@
 {
-  "name": "bot-consultas-tecnicas",
+  "name": "bot-tecnico-local",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "botbuilder": "^4.23.3",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1"
+    "botbuilder": "^4.22.0",
+    "restify": "^11.1.0"
   }
 }
